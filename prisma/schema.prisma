@@ -13,3 +13,25 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  username  String   @unique
+  email     String   @unique
+  password  String
+  phone     String?
+  website   String?
+  posts     Post[]
+}
+
+model Post {
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  title    String
+  body     String
+  imageUrl String?
+
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
